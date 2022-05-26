@@ -24,10 +24,13 @@ func main() {
 	}
 	log.Println("App started")
 
+	// Create files for the descriptors passed by the parent.
 	in := os.NewFile(uintptr(*inFD), "input")
 	sin := bufio.NewScanner(in)
 	out := os.NewFile(uintptr(*outFD), "output")
 
+	// Accept a "request" from the node and send a "response".
+	// Then shut down the "service" and exit.
 	for sin.Scan() {
 		log.Printf("[app] ⇐ %s\n", sin.Text())
 		fmt.Fprintf(out, "OK %s\n", sin.Text())
@@ -37,6 +40,7 @@ func main() {
 	if err := sin.Err(); err != nil && err != io.EOF {
 		log.Fatalf("[app] Scan failed: %v", err)
 	}
+
 	log.Printf("[app] close output: %v", out.Close())
 	in.Close()
 	log.Println("[app] exit OK")

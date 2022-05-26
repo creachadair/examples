@@ -24,10 +24,12 @@ func main() {
 	}
 	log.Println("Node started")
 
+	// Create files for the descriptors passed by the parent.
 	in := os.NewFile(uintptr(*inFD), "input")
 	sin := bufio.NewScanner(in)
 	out := os.NewFile(uintptr(*outFD), "output")
 
+	// Send a "request" to the application and wait for its "response".
 	fmt.Fprintln(out, "Hello!")
 	log.Printf("[node] ⇒ Hello!\n")
 	for sin.Scan() {
