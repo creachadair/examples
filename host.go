@@ -38,13 +38,8 @@ func main() {
 	}
 
 	// Start the node process and pass in its pipe ends.
-	// The flags tell it which descriptors to expect.
-	nproc, err := os.StartProcess(*nodePath, []string{
-		filepath.Base(*nodePath),
-		"-in", "3",
-		"-out", "4",
-	}, &os.ProcAttr{
-		Files: []*os.File{nil, nil, os.Stderr, npr, npw},
+	nproc, err := os.StartProcess(*nodePath, []string{filepath.Base(*nodePath)}, &os.ProcAttr{
+		Files: []*os.File{npr, npw, os.Stderr},
 	})
 	if err != nil {
 		log.Fatalf("Start node: %v", err)
@@ -56,13 +51,8 @@ func main() {
 	npw.Close()
 
 	// Start the app process and pass in its pipe ends.
-	// The flags tell it which descriptors to expect.
-	aproc, err := os.StartProcess(*appPath, []string{
-		filepath.Base(*appPath),
-		"-in", "3",
-		"-out", "4",
-	}, &os.ProcAttr{
-		Files: []*os.File{nil, nil, os.Stderr, apr, apw},
+	aproc, err := os.StartProcess(*appPath, []string{filepath.Base(*appPath)}, &os.ProcAttr{
+		Files: []*os.File{apr, apw, os.Stderr},
 	})
 	if err != nil {
 		log.Fatalf("Start app: %v", err)
