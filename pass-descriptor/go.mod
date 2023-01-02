@@ -1,4 +1,4 @@
-module github.com/creachadair/exp-dpass
+module github.com/creachadair/examples/pass-descriptor
 
 go 1.19
 
