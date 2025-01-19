@@ -5,3 +5,4 @@ do various small but interesting tasks.
 
 - [Plumbing pipes to child processes](./stdio-plumbing)
 - [Send a file descriptor over a socket](./pass-descriptor)
+- [Call a subprocess with a service pipe](./subproc-service)
