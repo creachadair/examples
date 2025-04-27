@@ -4,7 +4,7 @@ go 1.24
 
 toolchain go1.24.1
 
-require github.com/creachadair/chirp v0.0.0-20250403160620-f3169756dd4e
+require github.com/creachadair/chirp v0.0.0-20250412175921-5f9c12b58822
 
 require (
 	github.com/creachadair/mds v0.24.2 // indirect
