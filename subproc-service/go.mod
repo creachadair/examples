@@ -5,6 +5,6 @@ go 1.25
 require github.com/creachadair/chirp v0.2.4
 
 require (
-	github.com/creachadair/mds v0.25.13 // indirect
+	github.com/creachadair/mds v0.25.15 // indirect
 	github.com/creachadair/taskgroup v0.14.2 // indirect
 )
