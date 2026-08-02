@@ -25,10 +25,10 @@ func main() {
 	}
 	log.Printf("received HOST_FD %d", fd)
 
-	hr := os.NewFile(uintptr(fd), "host-in")
-	hw := os.NewFile(uintptr(fd+1), "host-out")
-
-	p := chirp.NewPeer().Start(channel.IO(hr, hw))
+	p := chirp.NewPeer().Start(channel.ConnectPipe(
+		os.NewFile(uintptr(fd), "host-in"),
+		os.NewFile(uintptr(fd+1), "host-out"),
+	))
 	defer p.Stop()
 
 	log.Printf("running, args are %q", flag.Args())
