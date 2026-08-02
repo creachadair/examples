@@ -16,7 +16,7 @@ func main() {
 	log.SetPrefix("[sub]  ")
 	log.SetFlags(log.Ltime | log.Lmicroseconds)
 	flag.Parse()
-	log.Printf("subprocess here, pid=%d", os.Getpid())
+	log.Printf("subprocess here, pid=%d, args=%q", os.Getpid(), flag.Args())
 
 	pstr, ok := os.LookupEnv("HOST_FD")
 	if !ok {
@@ -34,7 +34,6 @@ func main() {
 	))
 	defer p.Stop()
 
-	log.Printf("running, args are %q", flag.Args())
 	rsp, err := p.Call(context.Background(), "ping", fmt.Appendf(nil, "hello %v", flag.Args()))
 	if err != nil {
 		log.Printf("WARNING: Host ping failed: %v", err)
