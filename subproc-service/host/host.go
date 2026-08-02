@@ -15,19 +15,25 @@ import (
 
 func main() {
 	log.SetPrefix("[host] ")
+	log.SetFlags(log.Ltime | log.Lmicroseconds)
 	flag.Parse()
 	if flag.NArg() == 0 {
 		log.Fatal("You must provide a command and arguments")
 	}
+
+	log.Printf("host started")
 	sp, cp, err := channel.NewPipe()
 	if err != nil {
-		log.Fatalf("Pipe 2: %v", err)
+		log.Fatalf("NewPipe: %v", err)
 	}
 
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer cancel()
 
 	p := chirp.NewPeer().Handle("ping", handlePing).Start(sp)
+	p.LogPackets(func(pkt chirp.Packet, dir chirp.PacketDir) {
+		log.Printf("(chirp) %s %v", dir, pkt)
+	})
 	defer p.Stop()
 
 	cmd := exec.CommandContext(ctx, flag.Arg(0), flag.Args()[1:]...)
@@ -36,6 +42,7 @@ func main() {
 	cmd.Stderr = os.Stderr
 	cr, cw := cp.Files()
 	cmd.ExtraFiles = []*os.File{cr, cw}
+
 	if err := cmd.Start(); err != nil {
 		log.Fatalf("Start subprocess: %v", err)
 	}
